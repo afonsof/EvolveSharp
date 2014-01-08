@@ -75,7 +75,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EvolveSharp\EvolveSharp.csproj">
+    <ProjectReference Include="..\..\EvolveSharp\EvolveSharp.csproj">
       <Project>{bd607aa2-7660-4946-8383-623e5e842bbc}</Project>
       <Name>EvolveSharp</Name>
     </ProjectReference>
