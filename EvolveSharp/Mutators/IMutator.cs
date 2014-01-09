@@ -6,8 +6,8 @@ namespace EvolveSharp.Mutators
     /// Interface to support implementation of several Mutation Methods.
     /// </summary>
     /// <example>FlipGeneMutator.cs, RandomMutator.cs and UniformMutator</example>
-    public interface IMutator
+    public interface IMutator<T>
     {
-        void Mutate(IIndividual individual);
+        void Mutate(IIndividual<T> individual);
     }
 }

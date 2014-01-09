@@ -41,13 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Individuals\Individual.cs" />
-    <Compile Include="Initializators\ComplementaryInitializator.cs" />
-    <Compile Include="Initializators\RandomInitializator.cs" />
+    <Compile Include="Initializators\ComplementaryInitializer.cs" />
+    <Compile Include="Initializators\EmptyInitializer.cs" />
+    <Compile Include="Initializators\RandomInitializer.cs" />
     <Compile Include="Mutators\FlipGeneMutator.cs" />
     <Compile Include="Util\ConsoleReporter.cs" />
     <Compile Include="Util\Helper.cs" />
     <Compile Include="CrossoverMethods\ICrossoverMethod.cs" />
-    <Compile Include="Initializators\IInitializator.cs" />
+    <Compile Include="Initializators\IInitializer.cs" />
     <Compile Include="FitnessFunction\IFitnessFunction.cs" />
     <Compile Include="Individuals\IIndividual.cs" />
     <Compile Include="Mutators\IMutator.cs" />

@@ -1,4 +1,5 @@
-﻿using EvolveSharp.Individuals;
+﻿using System.Collections.Generic;
+using EvolveSharp.Individuals;
 using EvolveSharp.Util;
 
 namespace EvolveSharp.SelectionFunctions
@@ -12,25 +13,25 @@ namespace EvolveSharp.SelectionFunctions
         /// <summary>
         /// Select one genome of population
         /// </summary>
-        /// <param name="geneticAlgorithm">Population with genomes</param>
+        /// <param name="population">Population with genomes</param>
         /// <returns>The genome chosen</returns>
-        public IIndividual Select(IGeneticAlgorithm geneticAlgorithm)
+        public IIndividual<T> Select<T>(IList<IIndividual<T>> population)
         {
             var tournament = Helper.Random.NextDouble();
             double aux = 0;
             double sum = 0;
 
-            for (var i = 0; i < geneticAlgorithm.Count; i++)
+            for (var i = 0; i < population.Count; i++)
             {
-                sum += geneticAlgorithm[i].Fitness;
+                sum += population[i].Fitness;
             }
 
-            for (var i = 0; i < geneticAlgorithm.Count; i++)
+            for (var i = 0; i < population.Count; i++)
             {
-                aux += geneticAlgorithm[i].Fitness / sum;
+                aux += population[i].Fitness / sum;
                 if (tournament <= aux)
                 {
-                    return geneticAlgorithm[i];
+                    return population[i];
                 }
             }
 

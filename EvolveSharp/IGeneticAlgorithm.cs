@@ -11,14 +11,14 @@ namespace EvolveSharp
     /// <summary>
     /// Interface to support implementation of populations
     /// </summary>
-    public interface IGeneticAlgorithm
+    public interface IGeneticAlgorithm<T>
     {
         bool Elitism { get; set; }
         ISelector Selector { get; set; }
         ICrossoverMethod CrossoverMethod { get; set; }
-        IMutator Mutator { get; set; }
-        IFitnessFunction FitnessFunction { get; set; }
-        IInitializator Initializator { get; set; }
+        IMutator<T> Mutator { get; set; }
+        IFitnessFunction<T> FitnessFunction { get; set; }
+        IInitializer<T> Initializer { get; set; }
         IReporter Reporter { get; set; }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace EvolveSharp
         /// </summary>
         /// <param name="index">index of individual in the population</param>
         /// <returns>the individual with the corresponding index</returns>
-        IIndividual this[int index] { get; set; }
+        IIndividual<T> this[int index] { get; set; }
 
         /// <summary>
         /// Return the size of population
@@ -44,6 +44,6 @@ namespace EvolveSharp
         /// Get the best individual based in the fitness' value
         /// </summary>
         /// <returns>the best genome</returns>
-        IIndividual BestIndividual { get; }
+        IIndividual<T> BestIndividual { get; }
     }
 }

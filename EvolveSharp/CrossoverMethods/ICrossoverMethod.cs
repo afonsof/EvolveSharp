@@ -11,6 +11,6 @@ namespace EvolveSharp.CrossoverMethods
         /// <param name="inidividual1">Genome</param>
         /// <param name="individual2">Genome</param>
         /// <returns>Two new genomes, that are a mixture of genome1 and genome2</returns>
-        IList<IIndividual> Crossover(IIndividual inidividual1, IIndividual individual2);
+        IList<IIndividual<T>> Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2);
     }
 }

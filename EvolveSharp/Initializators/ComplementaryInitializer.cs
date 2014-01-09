@@ -9,20 +9,20 @@ namespace EvolveSharp.Initializators
     /// <summary>
     /// Creates a population with half of genomes exactly reverse each other
     /// </summary>
-    public class ComplementaryInitializator : IInitializator
+    public class ComplementaryInitializer : IInitializer<double>
     {
-        private readonly IMutator _mutator;
+        private readonly IMutator<double> _mutator;
         private readonly int _geneLength;
 
-        public ComplementaryInitializator(IMutator mutator, int geneLength)
+        public ComplementaryInitializer(IMutator<double> mutator, int geneLength)
         {
             _mutator = mutator;
             _geneLength = geneLength;
         }
 
-        public IEnumerable<IIndividual> Generate(int size, IFitnessFunction fitnessFunction)
+        public IEnumerable<IIndividual<double>> Generate(int size, IFitnessFunction<double> fitnessFunction)
         {
-            var population = new List<IIndividual>();
+            var population = new List<IIndividual<double>>();
            
             for (var i = 0; i < size; i+=2)
             {
@@ -31,10 +31,10 @@ namespace EvolveSharp.Initializators
                 {
                     genes.Add(Helper.Random.NextDouble());
                 }
-                population.Add(new Individual(genes));
+                population.Add(new Individual<double>(genes));
                 population[i].SetFitnessFunction(fitnessFunction);
 
-                var individual = (Individual)population[i].Clone();
+                var individual = (Individual<double>)population[i].Clone();
                 _mutator.Mutate(individual);
                 population.Add(individual);
                 population[i+1].SetFitnessFunction(fitnessFunction);

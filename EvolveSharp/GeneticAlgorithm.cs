@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EvolveSharp.CrossoverMethods;
 using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
@@ -12,29 +13,41 @@ namespace EvolveSharp
     /// <summary>
     /// Controller class of population's generation
     /// </summary>
-    public class GeneticAlgorithm : List<IIndividual>, IGeneticAlgorithm
+    public class GeneticAlgorithm<T> : List<IIndividual<T>>, IGeneticAlgorithm<T>
     {
         public bool Elitism { get; set; }
         public ISelector Selector { get; set; }
         public ICrossoverMethod CrossoverMethod { get; set; }
-        public IMutator Mutator { get; set; }
-        public IFitnessFunction FitnessFunction { get; set; }
-        public IInitializator Initializator { get; set; }
+        public IMutator<T> Mutator { get; set; }
+        public IFitnessFunction<T> FitnessFunction { get; set; }
+        public IInitializer<T> Initializer { get; set; }
         public IReporter Reporter { get; set; }
 
-        private int _generation;
-        private readonly int _populationCount;
-        private readonly int _geneCount;
+        private int _generationIndex;
+        public Action<IIndividual<T>> AfterCallback { get; set; }
 
-        public GeneticAlgorithm(int populationCount, int geneCount, IFitnessFunction fitnessFunction)
+        public GeneticAlgorithm(int populationCount, IFitnessFunction<T> fitnessFunction,
+                                ICrossoverMethod crossoverMethod, ISelector selector, IMutator<T> mutator,
+                                IInitializer<T> initializer, IReporter reporter = null)
         {
             FitnessFunction = fitnessFunction;
-            _populationCount = populationCount;
-            _geneCount = geneCount;
-            _generation++;
+            CrossoverMethod = crossoverMethod;
+            Selector = selector;
+            Mutator = mutator;
+            Initializer = initializer;
+            _generationIndex++;
+
+            Reporter = reporter ?? new ConsoleReporter();
+
+            Clear();
+            var initialPopulation = Initializer.Generate(populationCount, FitnessFunction);
+            foreach (var individual in initialPopulation)
+            {
+                Add(individual);
+            }
         }
 
-        public IIndividual BestIndividual
+        public IIndividual<T> BestIndividual
         {
             get
             {
@@ -51,14 +64,20 @@ namespace EvolveSharp
 
         public void Evolve(int generationCount, double minRateToSuccess = 0)
         {
-            Init();
+            //Init();
             Reporter.ReportLine("Starting evolution...");
 
             for (var i = 0; i < generationCount; i++)
             {
                 NextGeneration();
                 var bestIndividual = BestIndividual;
-                Reporter.ReportLine("Generation #{0}", _generation);
+
+                if (AfterCallback != null)
+                {
+                    AfterCallback(bestIndividual);
+                }
+
+                Reporter.ReportLine("Generation #{0}", _generationIndex);
                 Reporter.ReportLine("  Best Individual: {0}\n  Fitness: {1}\n", bestIndividual.ToString(), bestIndividual.Fitness);
 
                 if (minRateToSuccess > 0 && bestIndividual.Fitness > minRateToSuccess)
@@ -71,41 +90,9 @@ namespace EvolveSharp
         }
 
         #region PrivateMethods
-
-        private void Init()
-        {
-            if (Selector == null)
-            {
-                Selector = new TournamentSelector();
-            }
-            if (CrossoverMethod == null)
-            {
-                CrossoverMethod = new UniformCrossoverMethod();
-            }
-            if (Mutator == null)
-            {
-                Mutator = new RandomMutator();
-            }
-            if (Reporter == null)
-            {
-                Reporter = new ConsoleReporter();
-            }
-            if (Initializator == null)
-            {
-                //todo:
-                Initializator = new RandomInitializator(_geneCount);
-            }
-            Clear();
-            var initialPopulation = Initializator.Generate(_populationCount, FitnessFunction);
-            foreach (var individual in initialPopulation)
-            {
-                Add(individual);
-            }
-        }
-
         private void NextGeneration()
         {
-            var newGeneration = new List<IIndividual>();
+            var newGeneration = new List<IIndividual<T>>();
 
             for (var i = 0; i < Count; i += 2)
             {
@@ -133,9 +120,8 @@ namespace EvolveSharp
 
             Clear();
             AddRange(newGeneration);
-            _generation++;
+            _generationIndex++;
         }
-
         #endregion
     }
 }

@@ -3,163 +3,110 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using EvolveSharp.CrossoverMethods;
 using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
+using EvolveSharp.Initializators;
+using EvolveSharp.Mutators;
+using EvolveSharp.SelectionFunctions;
 
 namespace EvolveSharp.Sample1
 {
+    class FitnessFunction1 : IFitnessFunction<double>
+    {
+        private readonly List<Point> _travelingSalesman;
+
+        public FitnessFunction1(List<Point> travelingSalesman)
+        {
+            _travelingSalesman = travelingSalesman;
+        }
+
+        public double Evaluate(IIndividual<double> individual)
+        {
+            var sortedNums = new List<KeyValuePair<int, double>>();
+
+            for (var i = 0; i < _travelingSalesman.Count; i++)
+            {
+                sortedNums.Add(new KeyValuePair<int, double>(i, individual[i]));
+            }
+            sortedNums = sortedNums.OrderBy(n => n.Value).ToList();
+
+            var totalDistance = 0.0;
+
+            for (var i = 0; i < sortedNums.Count - 1; i++)
+            {
+                var firstOne = _travelingSalesman[sortedNums[i].Key];
+                var secondOne = _travelingSalesman[sortedNums[i + 1].Key];
+                totalDistance += DistanceTo(firstOne, secondOne);
+            }
+            return -totalDistance;
+        }
+
+        private double DistanceTo(Point pointA, Point pointB)
+        {
+            return Math.Pow(pointB.X - pointA.X, 2) + Math.Pow(pointB.Y - pointA.Y, 2);
+        }
+    }
+
     public partial class Form1 : Form
     {
         //Fitness function!
-        private static List<Point> travelingSalesman = new List<Point>();
-        private const int numNodes = 30;
-        private const int mapSize = 200;
-
-        private readonly Random random = new Random();
+        private static List<Point> _travelingSalesman = new List<Point>();
+        private const int NumNodes = 30;
+        private const int MapSize = 200;
+        private readonly Random _random = new Random();
 
         public Form1()
         {
             InitializeComponent();
         }
 
-
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void InitNodes()
         {
-            var numNodes = 10;
-            initNodes();
-
-            var ga = new GeneticAlgorithm(300, 10, new FitnessFunction1());
-            ga.Evolve(300);
+            _travelingSalesman = new List<Point>();
+            for (var i = 0; i < NumNodes; i++)
+            {
+                _travelingSalesman.Add(new Point((int)(_random.NextDouble() * MapSize), (int)(_random.NextDouble() * MapSize)));
+            }
         }
 
-        private void drawMap(IIndividual generation)
+        private void button1_Click(object sender, EventArgs e)
         {
+            InitNodes();
             var graphics = CreateGraphics();
 
-            graphics.Clear(Color.White);
-            Text = generation.ToString();
-
-            for (var i = 0; i < numNodes; i++)
+            var ga = new GeneticAlgorithm<double>(300, new FitnessFunction1(_travelingSalesman), new UniformCrossoverMethod(), new TournamentSelector(), new RandomMutator(0.7), new EmptyInitializer(NumNodes))
             {
-                graphics.DrawArc(new Pen(Color.Black), travelingSalesman[i].X, travelingSalesman[i].Y, 1, 0, (int)(2 * Math.PI), 360);
-            }
+                Elitism = true,
+                AfterCallback = i => Draw(graphics, i)
+            };
+            ga.Evolve(3000);
         }
 
-        private void initNodes()
+        private void Draw(Graphics g, IIndividual<double> individual)
         {
-            travelingSalesman = new List<Point>();
-            for (var i = 0; i < numNodes; i++)
+            g.Clear(Color.White);
+
+            for (var i = 0; i < NumNodes; i++)
             {
-                travelingSalesman.Add(new Point((int)random.NextDouble() * mapSize, (int)random.NextDouble() * mapSize));
-
-            }
-        }
-
-        private static double distanceTo(Point pointA, Point pointB)
-        {
-            return Math.Pow(pointB.X - pointA.X, 2) + Math.Pow(pointB.Y - pointA.Y, 2);
-        }
-
-        private class FitnessFunction1 : IFitnessFunction
-        {
-            public double Evaluate(IIndividual individual)
-            {
-                var sortedNums = new List<KeyValuePair<int, double>>();
-
-                for (var i = 0; i < travelingSalesman.Count; i++)
-                {
-                    sortedNums.Add(new KeyValuePair<int, double>(i, individual[i]));
-                }
-
-                sortedNums = sortedNums.OrderBy(n => n.Value).ToList();
-
-                var totalDistance = 0.0;
-
-                /*if (draw)
-                {
-                    var ctx = document.getElementById('gacanvas');
-                    ctx = ctx.getContext('2d');
-                }*/
-
-                for (var i = 0; i < sortedNums.Count - 1; i++)
-                {
-                    var firstOne = travelingSalesman[sortedNums[i].Key];
-                    var secondOne = travelingSalesman[sortedNums[i + 1].Key];
-                    totalDistance += distanceTo(firstOne, secondOne);
-
-                    /*if (ctx)
-                    {
-                        ctx.beginPath();
-                        ctx.moveTo(firstOne[0], firstOne[1]);
-                        ctx.lineTo(secondOne[0], secondOne[1]);
-                        ctx.stroke();
-                    }*/
-
-                }
-                return -totalDistance;
-            }
-        }
-
-        //Specify my individual - including chromosome length, mate, and init
-        /*private void Individual()
-        {
-            this.fitness = 0;
-            this.chromosomeLength = numNodes;
-            this.chromosome = new Array();
-            this.mate = function(mutability, mate)
-            {
-                if (!mate.chromosome)
-                {
-                    throw "Mate does not have a chromosome";
-                }
-                var newGuy = new Environment.Individual();
-                newGuy.chromosome =
-                    this.chromosome.slice(0, Math.floor(this.chromosomeLength))
-                        .concat(mate.chromosome.slice(Math.floor(this.chromosomeLength)));
-
-                while (Math.random() < mutability)
-                {
-                    var mutateIndex = Math.floor(Math.random()*this.chromosomeLength);
-                    //a random gene will be mutated;                     
-                    newGuy.chromosome[mutateIndex] = (1 << (Math.floor(Math.random()*16))) ^
-                                                     newGuy.chromosome[mutateIndex];
-                }
-                return newGuy;
+                g.DrawRectangle(new Pen(Color.Red), _travelingSalesman[i].X, _travelingSalesman[i].Y, 3, 3);
             }
 
-            Environment.Individual.prototype.init = function()
+            var sortedNums = new List<KeyValuePair<int, double>>();
+
+            for (var i = 0; i < _travelingSalesman.Count; i++)
             {
-                for (var i = 0; i < this.chromosomeLength; i++)
-                {
-                    this.chromosome.push(Math.random());
-                }
+                sortedNums.Add(new KeyValuePair<int, double>(i, individual[i]));
             }
-            ;
-        }*/
 
-        /*private Environment.beforeGeneration =
+            sortedNums = sortedNums.OrderBy(n => n.Value).ToList();
 
-        private function(generation )
-        {
-            drawMap(generation);
-        }
-
-    ;
-
-        private Environment.afterGeneration 
-    =
-
-        private function(generation )
-        {
-            for (individual in Environment.inhabitants)
+            for (var i = 0; i < sortedNums.Count - 1; i++)
             {
-                console.log(Environment.inhabitants[individual].fitness);
+                var firstOne = _travelingSalesman[sortedNums[i].Key];
+                var secondOne = _travelingSalesman[sortedNums[i + 1].Key];
+                g.DrawLine(new Pen(Color.Black), firstOne, secondOne);
             }
-            Environment.fitnessFunction(Environment.inhabitants[0], true);
-            setTimeout("Environment.generation()", 500);
         }
-
-    ;*/
     }
 }

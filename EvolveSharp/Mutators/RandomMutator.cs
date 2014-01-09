@@ -9,7 +9,7 @@ namespace EvolveSharp.Mutators
     /// Using the parameter 'RateMutation' is decided if should happen a mutation or not.
     /// If true, so is chosen a random gene to change its value.
     /// </summary>
-    public class RandomMutator : IMutator
+    public class RandomMutator : IMutator<double>
     {
         private readonly double _rateMutation;
         private const double RateMutationDefault = 0.1;
@@ -35,7 +35,7 @@ namespace EvolveSharp.Mutators
         /// Execute Mutation in the individual for reference with based in the rate
         /// </summary>
         /// <param name="individual">Genome</param>
-        public void Mutate(IIndividual individual)
+        public void Mutate(IIndividual<double> individual)
         {
             if (Helper.Random.NextDouble() < _rateMutation)
             {

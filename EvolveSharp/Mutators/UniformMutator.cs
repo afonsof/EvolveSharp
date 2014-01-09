@@ -12,7 +12,7 @@ namespace EvolveSharp.Mutators
     /// according to the rate parameter is decided if this bit will be changed for other 
     /// value or if remains the same.
     /// </summary>
-    public class UniformMutator : IMutator
+    public class UniformMutator : IMutator<double>
     {
         private readonly double _ratePerGene;
         private const double RatePerGeneDefault = 0.5;
@@ -38,7 +38,7 @@ namespace EvolveSharp.Mutators
         /// Execute Mutation in the individual for reference with based in the rate
         /// </summary>
         /// <param name="individual">Genome</param>
-        public void Mutate(IIndividual individual)
+        public void Mutate(IIndividual<double> individual)
         {
             for(var locus = 0; locus < individual.Length; locus++)
             {                

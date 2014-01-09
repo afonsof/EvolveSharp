@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using EvolveSharp.Individuals;
 
 namespace EvolveSharp.CrossoverMethods
@@ -34,11 +35,11 @@ namespace EvolveSharp.CrossoverMethods
         /// <param name="inidividual1">Genome</param>
         /// <param name="individual2">Genome</param>
         /// <returns>Two new genomes, that are a mixture of genome1 and genome2</returns>
-        public IList<IIndividual> Crossover(IIndividual inidividual1, IIndividual individual2)
+        public IList<IIndividual<T>> Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2)
         {
             _positions.Add(inidividual1.Length);
-            var offspring1 = new List<double>();
-            var offspring2 = new List<double>();
+            var offspring1 = new List<T>();
+            var offspring2 = new List<T>();
             var contParams = 0;
             var aux = true;
             while (contParams < _positions.Count - 1)
@@ -59,10 +60,10 @@ namespace EvolveSharp.CrossoverMethods
                 aux = !aux;
                 contParams++;
             }
-            return new List<IIndividual>
+            return new List<IIndividual<T>>
             {
-                new Individual(offspring1),
-                new Individual(offspring2)
+                new Individual<T>(offspring1),
+                new Individual<T>(offspring2)
             };
         }
     }

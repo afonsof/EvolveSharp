@@ -7,7 +7,7 @@ namespace EvolveSharp.Individuals
     /// <summary>
     /// Interface to support implementation of several kind of individual
     /// </summary>
-    public interface IIndividual : IComparable<IIndividual>, ICloneable
+    public interface IIndividual<T> : IComparable<IIndividual<T>>, ICloneable
     {
         /// <summary>
         /// Length of individual
@@ -19,12 +19,12 @@ namespace EvolveSharp.Individuals
         /// </summary>
         /// <param name="locus">Lower part of individual</param>
         /// <returns>Value this position</returns>
-        double this[int locus] { get; set; }
+        T this[int locus] { get; set; }
 
         /// <summary>
         /// Get the gene list
         /// </summary>
-        IList<double> Genes { get; }
+        IList<T> Genes { get; }
 
         /// <summary>
         /// Returns the Fitness of this individual
@@ -35,11 +35,11 @@ namespace EvolveSharp.Individuals
         /// Compare if the Fitness this individual is equal, smaller or larger than Fitness other individual
         /// </summary>
         /// <param name="other">Individual that want to compare with this</param>
-        new int CompareTo(IIndividual other);
+        new int CompareTo(IIndividual<T> other);
 
         /// <summary>
         /// Compare if the value this individual is equal to vaule other individual
         /// </summary>
-        void SetFitnessFunction(IFitnessFunction fitnessFunction);
+        void SetFitnessFunction(IFitnessFunction<T> fitnessFunction);
     }
 }

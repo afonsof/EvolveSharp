@@ -1,4 +1,5 @@
-﻿using EvolveSharp.Individuals;
+﻿using System.Collections.Generic;
+using EvolveSharp.Individuals;
 
 namespace EvolveSharp.SelectionFunctions
 {
@@ -12,6 +13,6 @@ namespace EvolveSharp.SelectionFunctions
         /// </summary>
         /// <param name="geneticAlgorithm">population which want to select a genome</param>
         /// <returns>the genome selected</returns>
-        IIndividual Select(IGeneticAlgorithm geneticAlgorithm);
+        IIndividual<T> Select<T>(IList<IIndividual<T>> population);
     }
 }

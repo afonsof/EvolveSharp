@@ -8,18 +8,18 @@ namespace EvolveSharp.Initializators
     /// <summary>
     /// Creates a new population based in the geneCount of population and its Fitness Function
     /// </summary>
-    public class RandomInitializator : IInitializator
+    public class RandomInitializer : IInitializer<double>
     {
         private readonly int _geneCount;
 
-        public RandomInitializator(int geneCount)
+        public RandomInitializer(int geneCount)
         {
             _geneCount = geneCount;
         }
 
-        public IEnumerable<IIndividual> Generate(int size, IFitnessFunction fitnessFunction)
+        public IEnumerable<IIndividual<double>> Generate(int size, IFitnessFunction<double> fitnessFunction)
         {
-            var population = new List<IIndividual>();
+            var population = new List<IIndividual<double>>();
 
             for (var i = 0; i < size; i++)
             {
@@ -28,7 +28,7 @@ namespace EvolveSharp.Initializators
                 {
                     genes.Add(Helper.Random.NextDouble());
                 }
-                population.Add(new Individual(genes));
+                population.Add(new Individual<double>(genes));
                 population[i].SetFitnessFunction(fitnessFunction);
             }
 
