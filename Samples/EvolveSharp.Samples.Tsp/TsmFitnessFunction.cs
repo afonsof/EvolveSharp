@@ -5,7 +5,7 @@ using System.Linq;
 using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 
-namespace EvolveSharp.Sample1
+namespace EvolveSharp.Samples.Tsp
 {
     class TsmFitnessFunction : IFitnessFunction<double>
     {

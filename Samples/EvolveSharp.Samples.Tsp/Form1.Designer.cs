@@ -1,4 +1,4 @@
-﻿namespace EvolveSharp.Sample1
+﻿namespace EvolveSharp.Samples.Tsp
 {
     partial class Form1
     {

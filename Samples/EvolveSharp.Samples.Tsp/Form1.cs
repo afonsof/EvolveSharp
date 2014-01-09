@@ -9,7 +9,7 @@ using EvolveSharp.Initializators;
 using EvolveSharp.Mutators;
 using EvolveSharp.SelectionFunctions;
 
-namespace EvolveSharp.Sample1
+namespace EvolveSharp.Samples.Tsp
 {
     public partial class Form1 : Form
     {
