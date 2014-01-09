@@ -52,7 +52,6 @@
     <Compile Include="FitnessFunction\IFitnessFunction.cs" />
     <Compile Include="Individuals\IIndividual.cs" />
     <Compile Include="Mutators\IMutator.cs" />
-    <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="SelectionFunctions\ISelector.cs" />
     <Compile Include="CrossoverMethods\PointCrossoverMethod.cs" />
     <Compile Include="GeneticAlgorithm.cs" />

@@ -14,7 +14,7 @@ namespace EvolveSharp
     /// <summary>
     /// Controller class of population's generation
     /// </summary>
-    public class GeneticAlgorithm<T> : List<IIndividual<T>>, IGeneticAlgorithm<T>
+    public class GeneticAlgorithm<T> : List<IIndividual<T>>
     {
         public bool Elitism { get; set; }
         public ISelector Selector { get; set; }
@@ -23,15 +23,15 @@ namespace EvolveSharp
         public IFitnessFunction<T> FitnessFunction { get; set; }
         public IInitializer<T> Initializer { get; set; }
         public IReporter Reporter { get; set; }
+        public int GenerationIndex { get; set; }
 
-        private int _generationIndex;
-        public Action<IIndividual<T>> AfterCallback { get; set; }
+        public Action<GeneticAlgorithm<T>> AfterCallback { get; set; }
 
         public GeneticAlgorithm(int populationCount, IFitnessFunction<T> fitnessFunction, IMutator<T> mutator,
                                 IInitializer<T> initializer, ICrossoverMethod crossoverMethod = null,
                                 ISelector selector = null, IReporter reporter = null)
         {
-            _generationIndex++;
+            GenerationIndex++;
 
             FitnessFunction = fitnessFunction;
             Mutator = mutator;
@@ -46,6 +46,10 @@ namespace EvolveSharp
             foreach (var individual in initialPopulation) { Add(individual); }
         }
 
+        /// <summary>
+        /// Get the best individual based in the fitness' value
+        /// </summary>
+        /// <returns>the best genome</returns>
         public IIndividual<T> BestIndividual
         {
             get
@@ -61,6 +65,11 @@ namespace EvolveSharp
             }
         }
 
+        /// <summary>
+        ///  Do the evolution
+        /// </summary>
+        /// <param name="generationCount">Number of generations to evolve</param>
+        /// <param name="minRateToSuccess"></param>
         public void Evolve(int generationCount, double minRateToSuccess = 0)
         {
             Reporter.ReportLine("Starting evolution...");
@@ -72,10 +81,10 @@ namespace EvolveSharp
 
                 if (AfterCallback != null)
                 {
-                    AfterCallback(bestIndividual);
+                    AfterCallback(this);
                 }
 
-                Reporter.ReportLine("Generation #{0}", _generationIndex);
+                Reporter.ReportLine("Generation #{0}", GenerationIndex);
                 Reporter.ReportLine("  Best Individual: {0}\n  Fitness: {1}\n", bestIndividual.ToString(), bestIndividual.Fitness);
 
                 if (minRateToSuccess > 0 && bestIndividual.Fitness > minRateToSuccess)
@@ -118,7 +127,7 @@ namespace EvolveSharp
 
             Clear();
             AddRange(newGeneration);
-            _generationIndex++;
+            GenerationIndex++;
         }
         #endregion
     }

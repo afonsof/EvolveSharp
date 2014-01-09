@@ -13,7 +13,7 @@ namespace EvolveSharp.Samples.Tsp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new DefaultForm());
         }
     }
 }
