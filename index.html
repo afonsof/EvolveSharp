@@ -1,79 +1,115 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Evolvesharp : .NET Genetic Algorithm Framework" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Evolvesharp</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Evolvesharp by afonsof</title>
   </head>
 
   <body>
+    <div id="container">
+      <div class="inner">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/afonsof/EvolveSharp">View on GitHub</a>
-
-          <h1 id="project_title">Evolvesharp</h1>
-          <h2 id="project_tagline">.NET Genetic Algorithm Framework</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/afonsof/EvolveSharp/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/afonsof/EvolveSharp/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+        <header>
+          <h1>Evolvesharp</h1>
+          <h2>.NET Genetic Algorithm Framework</h2>
         </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/afonsof/EvolveSharp/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/afonsof/EvolveSharp/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/afonsof/EvolveSharp" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        <hr>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+        <section id="main_content">
+          <h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<h4>
+<a name="1-setting-up" class="anchor" href="#1-setting-up"><span class="octicon octicon-link"></span></a>1. Setting Up</h4>
+
+<p>Create a Console Application and install EvoleSharp using Nuget:</p>
+
+<pre><code>PM&gt; Install-Package EvolveSharp
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h4>
+<a name="2-create-a-fitness-function" class="anchor" href="#2-create-a-fitness-function"><span class="octicon octicon-link"></span></a>2. Create a fitness function</h4>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>In this simple example we are creating a fitness function to sum all genes of an individual</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<div class="highlight highlight-c#"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ExampleFitnessFunction</span> <span class="p">:</span> <span class="n">IFitnessFunction</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">double</span> <span class="nf">Evaluate</span><span class="p">(</span><span class="n">IIndividual</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;</span> <span class="n">individual</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0.0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">individual</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+        <span class="p">{</span>
+            <span class="n">sum</span> <span class="p">+=</span> <span class="n">individual</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h4>
+<a name="3-instantiate-the-geneticalgorithm-class-and-call-the-evolve-method" class="anchor" href="#3-instantiate-the-geneticalgorithm-class-and-call-the-evolve-method"><span class="octicon octicon-link"></span></a>3. Instantiate the GeneticAlgorithm class and call the Evolve method</h4>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>You can set 3 parameters:</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ol>
+<li>Population count: How many individuals each population will have</li>
+<li>Gene count: How many genes each individual will have</li>
+<li>Generation count: How many generations will occour</li>
+</ol><div class="highlight highlight-c#"><pre><span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">populationCount</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">generationCount</span> <span class="p">=</span> <span class="m">10000</span><span class="p">;</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">geneCount</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+        <span class="kt">var</span> <span class="n">ga</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GeneticAlgorithm</span><span class="p">(</span><span class="n">populationCount</span><span class="p">,</span> <span class="n">geneCount</span><span class="p">,</span> <span class="k">new</span> <span class="n">ExampleFitnessFunction</span><span class="p">());</span>
+        <span class="n">ga</span><span class="p">.</span><span class="n">Evolve</span><span class="p">(</span><span class="n">generationCount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<h4>
+<a name="other-information" class="anchor" href="#other-information"><span class="octicon octicon-link"></span></a>Other information</h4>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+<ol>
+<li>You can create your own mutation, selection, crossover and initializer class. You just need to inherit the respective interface.</li>
+<li>You can set the <code>Mutator</code>, <code>CrossoverMethod</code>, <code>Selector</code> and <code>Initializer</code> after instantiate the <code>GeneticAlgorithm</code> class.</li>
+<li>You can create and set your own reporter in <code>GeneticAlgorithm</code> class.</li>
+</ol><h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Please use the issue tracker and pull requests.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright (c) 2014 Afonso França
+Licensed under the MIT license.</p>
+        </section>
+
+        <footer>
+          Evolvesharp is maintained by <a href="https://github.com/afonsof">afonsof</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Evolvesharp maintained by <a href="https://github.com/afonsof">afonsof</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
