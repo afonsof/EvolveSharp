@@ -45,7 +45,7 @@
     <Compile Include="Initializators\EmptyInitializer.cs" />
     <Compile Include="Initializators\RandomInitializer.cs" />
     <Compile Include="Mutators\FlipGeneMutator.cs" />
-    <Compile Include="Util\ConsoleReporter.cs" />
+    <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Util\Helper.cs" />
     <Compile Include="CrossoverMethods\ICrossoverMethod.cs" />
     <Compile Include="Initializators\IInitializer.cs" />
@@ -62,7 +62,8 @@
     <Compile Include="SelectionFunctions\RouletteWheelSelector.cs" />
     <Compile Include="SelectionFunctions\TournamentSelector.cs" />
     <Compile Include="CrossoverMethods\UniformCrossoverMethod.cs" />
-    <Compile Include="Util\IReporter.cs" />
+    <Compile Include="Reporters\IReporter.cs" />
+    <Compile Include="Reporters\VoidReporter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

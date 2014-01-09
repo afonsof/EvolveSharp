@@ -3,6 +3,7 @@ using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 using EvolveSharp.Initializators;
 using EvolveSharp.Mutators;
+using EvolveSharp.Reporters;
 using EvolveSharp.SelectionFunctions;
 using EvolveSharp.Util;
 

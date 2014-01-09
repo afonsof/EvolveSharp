@@ -1,4 +1,4 @@
-﻿namespace EvolveSharp.Util
+﻿namespace EvolveSharp.Reporters
 {
     public interface IReporter
     {

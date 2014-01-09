@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvolveSharp", "EvolveSharp\EvolveSharp.csproj", "{BD607AA2-7660-4946-8383-623E5E842BBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvolveSharp.Sample1", "Samples\EvolveSharp.Sample1\EvolveSharp.Sample1.csproj", "{BADBF639-DDAD-4ACE-BDD2-03499E51328F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvolveSharp.Samples.Tsp", "Samples\EvolveSharp.Sample1\EvolveSharp.Samples.Tsp.csproj", "{BADBF639-DDAD-4ACE-BDD2-03499E51328F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CE4B0B63-EFAF-4418-8156-F142E8FDD06D}"
 EndProject

@@ -5,6 +5,7 @@ using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 using EvolveSharp.Initializators;
 using EvolveSharp.Mutators;
+using EvolveSharp.Reporters;
 using EvolveSharp.SelectionFunctions;
 using EvolveSharp.Util;
 
@@ -26,25 +27,23 @@ namespace EvolveSharp
         private int _generationIndex;
         public Action<IIndividual<T>> AfterCallback { get; set; }
 
-        public GeneticAlgorithm(int populationCount, IFitnessFunction<T> fitnessFunction,
-                                ICrossoverMethod crossoverMethod, ISelector selector, IMutator<T> mutator,
-                                IInitializer<T> initializer, IReporter reporter = null)
+        public GeneticAlgorithm(int populationCount, IFitnessFunction<T> fitnessFunction, IMutator<T> mutator,
+                                IInitializer<T> initializer, ICrossoverMethod crossoverMethod = null,
+                                ISelector selector = null, IReporter reporter = null)
         {
-            FitnessFunction = fitnessFunction;
-            CrossoverMethod = crossoverMethod;
-            Selector = selector;
-            Mutator = mutator;
-            Initializer = initializer;
             _generationIndex++;
 
+            FitnessFunction = fitnessFunction;
+            Mutator = mutator;
+            Initializer = initializer;
+
             Reporter = reporter ?? new ConsoleReporter();
+            CrossoverMethod = crossoverMethod ?? new UniformCrossoverMethod();
+            Selector = selector ?? new TournamentSelector();
 
             Clear();
             var initialPopulation = Initializer.Generate(populationCount, FitnessFunction);
-            foreach (var individual in initialPopulation)
-            {
-                Add(individual);
-            }
+            foreach (var individual in initialPopulation) { Add(individual); }
         }
 
         public IIndividual<T> BestIndividual
@@ -64,7 +63,6 @@ namespace EvolveSharp
 
         public void Evolve(int generationCount, double minRateToSuccess = 0)
         {
-            //Init();
             Reporter.ReportLine("Starting evolution...");
 
             for (var i = 0; i < generationCount; i++)

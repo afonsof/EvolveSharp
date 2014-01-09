@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
-namespace EvolveSharp.Sample1
+namespace EvolveSharp.Samples.Tsp
 {
     static class Program
     {

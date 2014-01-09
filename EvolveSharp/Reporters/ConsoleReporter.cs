@@ -1,6 +1,6 @@
 using System;
 
-namespace EvolveSharp.Util
+namespace EvolveSharp.Reporters
 {
     public class ConsoleReporter: IReporter
     {
