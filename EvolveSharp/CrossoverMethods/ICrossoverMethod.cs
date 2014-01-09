@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using EvolveSharp.Individuals;
 
 namespace EvolveSharp.CrossoverMethods
@@ -6,11 +6,11 @@ namespace EvolveSharp.CrossoverMethods
     public interface ICrossoverMethod
     {
         /// <summary>
-        /// Execute crossover between two genomes and return other two genomes mixed
+        /// Execute crossover
         /// </summary>
-        /// <param name="inidividual1">Genome</param>
-        /// <param name="individual2">Genome</param>
-        /// <returns>Two new genomes, that are a mixture of genome1 and genome2</returns>
-        IList<IIndividual<T>> Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2);
+        /// <param name="inidividual1">Individual</param>
+        /// <param name="individual2">Individual</param>
+        /// <returns>Two children mixing their parents</returns>
+        Tuple<IIndividual<T>,IIndividual<T>>  Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2);
     }
 }

@@ -104,11 +104,11 @@ namespace EvolveSharp
             {
                 var aux = CrossoverMethod.Crossover(Selector.Select(this), Selector.Select(this));
 
-                Mutator.Mutate(aux[0]);
-                Mutator.Mutate(aux[1]);
+                Mutator.Mutate(aux.Item1);
+                Mutator.Mutate(aux.Item2);
 
-                newGeneration.Add(aux[0]);
-                newGeneration.Add(aux[1]);
+                newGeneration.Add(aux.Item1);
+                newGeneration.Add(aux.Item2);
 
                 newGeneration[i].SetFitnessFunction(FitnessFunction);
                 newGeneration[i + 1].SetFitnessFunction(FitnessFunction);

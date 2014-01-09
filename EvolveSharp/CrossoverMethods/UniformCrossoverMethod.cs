@@ -1,46 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EvolveSharp.Individuals;
 using EvolveSharp.Util;
 
 namespace EvolveSharp.CrossoverMethods
 {
-    /// <summary>
-    /// Class implements the  interface 'ICrossoverMethod'.
-    /// This kind of Crossover is called of Uniform.
-    /// It mixes the two genomes received based in a rate set as a parameter: 'ratePerLocus'.
-    /// All of genes are analized and for each of them a Random number is generated, so 
-    /// according to the rate parameter is decided if this locus will be changed for other 
-    /// corresponding gene between genome1 and genome2 or if this gene remains the same.
-    /// </summary>
     public class UniformCrossoverMethod : ICrossoverMethod
     {
         private readonly double _ratePerGene;
         private const double RatePerGeneDefault = 0.5;
 
-        /// <summary>
-        /// Builder set 'ratePerGene' with a Default value
-        /// </summary>
         public UniformCrossoverMethod()
         {
             _ratePerGene = RatePerGeneDefault;
         }
 
-        /// <summary>
-        /// Builder set 'ratePerGene' with a parameter passed by the user
-        /// </summary>
-        /// <param name="ratePerGene">Likely to happen Crossover</param>
         public UniformCrossoverMethod(double ratePerGene)
         {
             _ratePerGene = ratePerGene;
         }
 
-        /// <summary>
-        /// Execute crossover between two genomes and return other two genomes mixed
-        /// </summary>
-        /// <param name="inidividual1">Genome</param>
-        /// <param name="individual2">Genome</param>
-        /// <returns>Two new genomes, that are a mixture of genome1 and genome2</returns>
-        public IList<IIndividual<T>> Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2)
+        public Tuple<IIndividual<T>, IIndividual<T>> Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2)
         {
             var offspring1 = new List<T>();
             var offspring2 = new List<T>();
@@ -58,12 +38,7 @@ namespace EvolveSharp.CrossoverMethods
                     offspring2.Add(inidividual1[locus]);
                 }
             }
-
-            return new List<IIndividual<T>>
-            {
-                new Individual<T>(offspring1),
-                new Individual<T>(offspring2)
-            };
+            return new Tuple<IIndividual<T>, IIndividual<T>>(new Individual<T>(offspring1), new Individual<T>(offspring2));
         }
     }
 }
