@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using EvolveSharp.Initializators;
 using EvolveSharp.Mutators;
 
 namespace EvolveSharp.Samples.Tsp
@@ -34,7 +33,7 @@ namespace EvolveSharp.Samples.Tsp
             }
         }
 
-        private void Draw(Graphics g, GeneticAlgorithm<double> ga)
+        private void Draw(Graphics g, GeneticAlgorithm ga)
         {
             if (_disposed) return;
 
@@ -86,11 +85,9 @@ namespace EvolveSharp.Samples.Tsp
             var populationCount = Convert.ToInt32(populationSize.Text);
             var generationCount = Convert.ToInt32(numberOfGenerations.Text);
 
-            var randomMutator = new RandomMutator(Convert.ToDouble(mutabilityPercent.Text));
             var tsmFitnessFunction = new TsmFitnessFunction(_travelingSalesman);
-            var emptyInitializer = new EmptyInitializer(_numNodes);
 
-            var ga = new GeneticAlgorithm<double>(populationCount, tsmFitnessFunction, randomMutator,emptyInitializer)
+            var ga = new GeneticAlgorithm(populationCount, _numNodes, tsmFitnessFunction)
             {
                 Elitism = true,
                 AfterCallback = i => Draw(_graphics, i)

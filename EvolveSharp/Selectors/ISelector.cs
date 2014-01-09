@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EvolveSharp.Individuals;
 
-namespace EvolveSharp.SelectionFunctions
+namespace EvolveSharp.Selectors
 {
     /// <summary>
     /// Interface to support implementation of several selection Methods.

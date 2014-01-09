@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 
 namespace EvolveSharp.Samples.Tsp

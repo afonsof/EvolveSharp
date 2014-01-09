@@ -1,6 +1,6 @@
 ﻿using EvolveSharp.Individuals;
 
-namespace EvolveSharp.FitnessFunction
+namespace EvolveSharp
 {
     /// <summary>
     /// Interface to support implementation of Fitness function

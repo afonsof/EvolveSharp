@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using EvolveSharp.CrossoverMethods;
-using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
-using EvolveSharp.Initializators;
+using EvolveSharp.Initializers;
 using EvolveSharp.Mutators;
 using EvolveSharp.Reporters;
-using EvolveSharp.SelectionFunctions;
-using EvolveSharp.Util;
+using EvolveSharp.Selectors;
 
 namespace EvolveSharp
 {
     /// <summary>
     /// Controller class of population's generation
     /// </summary>
-    public class GeneticAlgorithm<T> : List<IIndividual<T>>
+    public class GeneticAlgorithm : List<IIndividual<double>>
     {
         public bool Elitism { get; set; }
         public ISelector Selector { get; set; }
         public ICrossoverMethod CrossoverMethod { get; set; }
-        public IMutator<T> Mutator { get; set; }
-        public IFitnessFunction<T> FitnessFunction { get; set; }
-        public IInitializer<T> Initializer { get; set; }
+        public IMutator<double> Mutator { get; set; }
+        public IFitnessFunction<double> FitnessFunction { get; set; }
+        public IInitializer<double> Initializer { get; set; }
         public IReporter Reporter { get; set; }
         public int GenerationIndex { get; set; }
 
-        public Action<GeneticAlgorithm<T>> AfterCallback { get; set; }
+        public Action<GeneticAlgorithm> AfterCallback { get; set; }
 
-        public GeneticAlgorithm(int populationCount, IFitnessFunction<T> fitnessFunction, IMutator<T> mutator,
-                                IInitializer<T> initializer, ICrossoverMethod crossoverMethod = null,
+        public GeneticAlgorithm(int populationCount, int geneCount, IFitnessFunction<double> fitnessFunction, IMutator<double> mutator = null,
+                                IInitializer<double> initializer = null, ICrossoverMethod crossoverMethod = null,
                                 ISelector selector = null, IReporter reporter = null)
         {
             GenerationIndex++;
@@ -36,7 +34,8 @@ namespace EvolveSharp
             FitnessFunction = fitnessFunction;
             Mutator = mutator;
             Initializer = initializer;
-
+            Mutator = mutator ?? new RandomMutator();
+            Initializer = initializer ?? new EmptyInitializer(geneCount);
             Reporter = reporter ?? new ConsoleReporter();
             CrossoverMethod = crossoverMethod ?? new UniformCrossoverMethod();
             Selector = selector ?? new TournamentSelector();
@@ -50,7 +49,7 @@ namespace EvolveSharp
         /// Get the best individual based in the fitness' value
         /// </summary>
         /// <returns>the best genome</returns>
-        public IIndividual<T> BestIndividual
+        public IIndividual<double> BestIndividual
         {
             get
             {
@@ -99,7 +98,7 @@ namespace EvolveSharp
         #region PrivateMethods
         private void NextGeneration()
         {
-            var newGeneration = new List<IIndividual<T>>();
+            var newGeneration = new List<IIndividual<double>>();
 
             for (var i = 0; i < Count; i += 2)
             {

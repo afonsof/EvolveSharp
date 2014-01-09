@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 using EvolveSharp.Mutators;
 using EvolveSharp.Util;
 
-namespace EvolveSharp.Initializators
+namespace EvolveSharp.Initializers
 {
     /// <summary>
     /// Creates a population with half of genomes exactly reverse each other

@@ -2,7 +2,7 @@
 using EvolveSharp.Individuals;
 using EvolveSharp.Util;
 
-namespace EvolveSharp.SelectionFunctions
+namespace EvolveSharp.Selectors
 {
     /// <summary>
     /// This a kind of Selection called of Roulette Wheel.

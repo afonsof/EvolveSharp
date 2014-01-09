@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 
-namespace EvolveSharp.Initializators
+namespace EvolveSharp.Initializers
 {
     /// <summary>
     /// Interface to support implementation of population.

@@ -41,25 +41,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Individuals\Individual.cs" />
-    <Compile Include="Initializators\ComplementaryInitializer.cs" />
-    <Compile Include="Initializators\EmptyInitializer.cs" />
-    <Compile Include="Initializators\RandomInitializer.cs" />
+    <Compile Include="Initializers\ComplementaryInitializer.cs" />
+    <Compile Include="Initializers\EmptyInitializer.cs" />
+    <Compile Include="Initializers\RandomInitializer.cs" />
     <Compile Include="Mutators\FlipGeneMutator.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Util\Helper.cs" />
     <Compile Include="CrossoverMethods\ICrossoverMethod.cs" />
-    <Compile Include="Initializators\IInitializer.cs" />
-    <Compile Include="FitnessFunction\IFitnessFunction.cs" />
+    <Compile Include="Initializers\IInitializer.cs" />
+    <Compile Include="IFitnessFunction.cs" />
     <Compile Include="Individuals\IIndividual.cs" />
     <Compile Include="Mutators\IMutator.cs" />
-    <Compile Include="SelectionFunctions\ISelector.cs" />
+    <Compile Include="Selectors\ISelector.cs" />
     <Compile Include="CrossoverMethods\PointCrossoverMethod.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mutators\UniformMutator.cs" />
     <Compile Include="Mutators\RandomMutator.cs" />
-    <Compile Include="SelectionFunctions\RouletteWheelSelector.cs" />
-    <Compile Include="SelectionFunctions\TournamentSelector.cs" />
+    <Compile Include="Selectors\RouletteWheelSelector.cs" />
+    <Compile Include="Selectors\TournamentSelector.cs" />
     <Compile Include="CrossoverMethods\UniformCrossoverMethod.cs" />
     <Compile Include="Reporters\IReporter.cs" />
     <Compile Include="Reporters\VoidReporter.cs" />

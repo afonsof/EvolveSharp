@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using EvolveSharp.FitnessFunction;
 using EvolveSharp.Individuals;
 using EvolveSharp.Util;
 
-namespace EvolveSharp.Initializators
+namespace EvolveSharp.Initializers
 {
     /// <summary>
     /// Creates a new population based in the geneCount of population and its Fitness Function

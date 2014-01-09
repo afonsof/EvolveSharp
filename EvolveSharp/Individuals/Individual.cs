@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using EvolveSharp.FitnessFunction;
 
 namespace EvolveSharp.Individuals
 {
