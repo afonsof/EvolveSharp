@@ -2,6 +2,8 @@
 
 A Genetic Algorithm Framework for .NET
 
+<a href="http://afonsof.github.io/EvolveSharp" target="_blank">Visit our website</a>
+
 ## Getting Started
 
 #### 1. Setting Up
