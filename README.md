@@ -2,7 +2,9 @@
 
 EvolveSharp
 ===========
-EvolveSharp is a Genetic Algorithm Framework for .NET
+A Genetic Algorithm Framework for .NET
+
+<a href="http://afonsof.github.io/EvolveSharp" target="_blank">Visit our website</a>
 
 ## Getting Started
 
@@ -58,6 +60,11 @@ class Program
 1. You can create your own mutation, selection, crossover and initializer class. You just need to inherit the respective interface.
 2. You can set the ```Mutator```, ```CrossoverMethod```, ```Selector``` and ```Initializer``` after instantiate the ```GeneticAlgorithm``` class.
 3. You can create and set your own reporter in ```GeneticAlgorithm``` class.
+
+## Sample
+Clone EvolveSharp and try the Travelling salesman problem sample
+
+<img src="http://afonsof.github.io/EvolveSharp/images/tsp.png" />
 
 ## Contributing
 
