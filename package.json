@@ -1,0 +1,24 @@
+{
+  "name": "EvolveSharp",
+  "version": "0.8.1",
+  "description": ".NET Genetic Algorithm Framework",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afonsof/EvolveSharp.git"
+  },
+  "author": "Afonso França",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/afonsof/EvolveSharp/issues"
+  },
+  "homepage": "https://github.com/afonsof/EvolveSharp",
+  "devDependencies": {
+    "grunt-nuget": "~0.1.1",
+    "grunt": "~0.4.2",
+    "grunt-dotnet-assembly-info": "~1.0.9",
+    "time-grunt": "~0.2.8",
+    "load-grunt-tasks": "~0.3.0",
+    "grunt-shell": "~0.6.4"
+  }
+}

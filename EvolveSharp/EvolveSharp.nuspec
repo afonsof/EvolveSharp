@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <description>$description$</description>
+    <licenseUrl>https://github.com/afonsof/EvolveSharp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/afonsof/EvolveSharp</projectUrl>
+    <iconUrl>http://afonsof.github.io/EvolveSharp/images/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <copyright>Copyright 2014</copyright>
+  </metadata>
+</package>
