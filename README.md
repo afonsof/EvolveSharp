@@ -1,7 +1,7 @@
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-EvolveSharp
-===========
+<img src="http://afonsof.github.io/EvolveSharp/images/logo.png" width="150" />
+
 A Genetic Algorithm Framework for .NET
 
 <a href="http://afonsof.github.io/EvolveSharp" target="_blank">Visit our website</a>
