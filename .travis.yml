@@ -6,6 +6,6 @@ install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
   - curl -O --location https://www.nuget.org/nuget.exe
 script:
-  - mono nuget.exe restore
+  - mono --runtime=v4.0.30319 nuget.exe restore
   - xbuild EvolveSharp.sln
   - nunit-console Tests/UnitTests/bin/Debug/UnitTests.dll
