@@ -1,4 +1,6 @@
+[![Build Status](https://travis-ci.org/afonsof/EvolveSharp.png?branch=master)](https://travis-ci.org/afonsof/EvolveSharp)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 
 <img src="http://afonsof.github.io/EvolveSharp/images/logo.png" width="150" />
 
