@@ -3,7 +3,7 @@
 language: c
 
 install:
-  - sudo apt-get install mono-devel mono-gmcs nunit-console
+  - sudo apt-get install mono-devel mono-gmcs nunit-console nunit
 script:
   - xbuild EvolveSharp.sln
   - nunit-console Tests/UnitTests/bin/Debug/UnitTests.dll
