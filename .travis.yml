@@ -2,9 +2,6 @@
 
 language: c
 
-env:
- global:
-  - EnableNuGetPackageRestore=true 
 install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
   - curl -O --location https://www.nuget.org/nuget.exe
