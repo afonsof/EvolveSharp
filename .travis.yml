@@ -3,7 +3,8 @@
 language: c
 
 install:
-  - sudo apt-get install mono-devel mono-gmcs nunit-console nunit
+  - sudo apt-get install mono-devel mono-gmcs nunit-console
 script:
+  - export EnableNuGetPackageRestore=true
   - xbuild EvolveSharp.sln
   - nunit-console Tests/UnitTests/bin/Debug/UnitTests.dll
