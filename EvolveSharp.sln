@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CE4B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsp", "Samples\Tsp\Tsp.csproj", "{BADBF639-DDAD-4ACE-BDD2-03499E51328F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D09A3C92-0CFD-46A3-9C44-809A81248F3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTests\UnitTests.csproj", "{F9441D64-B402-4F15-9755-2E672E3E75F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,11 +41,22 @@ Global
 		{BADBF639-DDAD-4ACE-BDD2-03499E51328F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BADBF639-DDAD-4ACE-BDD2-03499E51328F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BADBF639-DDAD-4ACE-BDD2-03499E51328F}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F9441D64-B402-4F15-9755-2E672E3E75F2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BADBF639-DDAD-4ACE-BDD2-03499E51328F} = {CE4B0B63-EFAF-4418-8156-F142E8FDD06D}
+		{F9441D64-B402-4F15-9755-2E672E3E75F2} = {D09A3C92-0CFD-46A3-9C44-809A81248F3A}
 	EndGlobalSection
 EndGlobal

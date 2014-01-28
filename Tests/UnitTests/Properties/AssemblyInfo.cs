@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EvolveSharp.Sample.Tsp")]
+[assembly: AssemblyTitle("EvolveSharp.Tests.UnitTests")]
 [assembly: AssemblyDescription(".NET Genetic Algorithm Framework")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Afonso França")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3ecb1034-b657-40b7-91f8-d0abc940eded")]
+[assembly: Guid("2c7c82ae-4a9b-4990-b038-d0d719b484e6")]
 
 // Version information for an assembly consists of the following four values:
 //

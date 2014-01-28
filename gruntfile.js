@@ -17,15 +17,14 @@ module.exports = function(grunt) {
             options: {
                 stdout: true
             },
-            command: 'md pub & nuget pack EvolveSharp/EvolveSharp.csproj -Build -Prop Configuration=Release -OutputDirectory pub'
+            command: 'md pub & nuget pack EvolveSharp/EvolveSharp.csproj -Prop Configuration=Release -OutputDirectory pub'
         }
     },
     
     assemblyinfo: {
         options: {
-            files: ['EvolveSharp/EvolveSharp.csproj'],
+            files: ['EvolveSharp/EvolveSharp.csproj', 'Samples/Tsp/Tsp.csproj', 'Tests/UnitTests/UnitTests.csproj'],
             info: {
-                title: '<%= pkg.name %>', 
                 description: '<%= pkg.description %>', 
                 configuration: 'Release', 
                 company: '<%= pkg.author %>', 
@@ -35,9 +34,25 @@ module.exports = function(grunt) {
                 fileVersion: '<%= pkg.version %>.0'
             }
         }
+    },
+    
+    msbuild: {
+        src: ['EvolveSharp.sln'],
+        options: {
+            verbosity: 'minimal',
+            projectConfiguration: 'Release',
+            targets: ['Clean', 'Rebuild'],
+            stdout: true
+        }
+    },
+    
+    nunit: {
+        options: {
+            files: ['Tests/UnitTests/bin/Release/UnitTests.dll']
+        }
     }
     
   });
-  grunt.registerTask('default', ['assemblyinfo', 'shell:nugetpack']);
+  grunt.registerTask('default', ['assemblyinfo', 'msbuild', 'nunit', 'shell:nugetpack']);
   grunt.registerTask('push', ['default', 'nugetpush']);
 };
