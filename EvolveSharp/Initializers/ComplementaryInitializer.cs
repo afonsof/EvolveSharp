@@ -6,7 +6,7 @@ using EvolveSharp.Util;
 namespace EvolveSharp.Initializers
 {
     /// <summary>
-    /// Creates a population with half of genomes exactly reverse each other
+    /// Creates a population with half of individuals exactly reverse each other
     /// </summary>
     public class ComplementaryInitializer : IInitializer<double>
     {

@@ -6,11 +6,11 @@ namespace EvolveSharp.CrossoverMethods
     public interface ICrossoverMethod
     {
         /// <summary>
-        /// Execute crossover
+        /// Performs a crossover between two individuals
         /// </summary>
-        /// <param name="inidividual1">Individual</param>
+        /// <param name="individual1">Individual</param>
         /// <param name="individual2">Individual</param>
-        /// <returns>Two children mixing their parents</returns>
-        Tuple<IIndividual<T>,IIndividual<T>>  Crossover<T>(IIndividual<T> inidividual1, IIndividual<T> individual2);
+        /// <returns>Two sons of individuals</returns>
+        Tuple<IIndividual<T>,IIndividual<T>>  Crossover<T>(IIndividual<T> individual1, IIndividual<T> individual2);
     }
 }

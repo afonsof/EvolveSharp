@@ -6,15 +6,15 @@ namespace EvolveSharp.Selectors
 {
     /// <summary>
     /// This a kind of Selection called of Roulette Wheel.
-    /// It chooses a genome at random using the Fitness function as a weight of choice
+    /// It chooses a individual at random using the Fitness function as a weight of choice
     /// </summary>
     public class RouletteWheelSelector : ISelector
     {
         /// <summary>
-        /// Select one genome of population
+        /// Select one individual of population
         /// </summary>
-        /// <param name="population">Population with genomes</param>
-        /// <returns>The genome chosen</returns>
+        /// <param name="population">Population with individuals</param>
+        /// <returns>The individual chosen</returns>
         public IIndividual<T> Select<T>(IList<IIndividual<T>> population)
         {
             var tournament = Helper.Random.NextDouble();

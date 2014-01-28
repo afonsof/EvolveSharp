@@ -48,7 +48,7 @@ namespace EvolveSharp
         /// <summary>
         /// Get the best individual based in the fitness' value
         /// </summary>
-        /// <returns>the best genome</returns>
+        /// <returns>The best Individual</returns>
         public IIndividual<double> BestIndividual
         {
             get

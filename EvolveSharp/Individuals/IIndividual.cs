@@ -4,21 +4,21 @@ using System.Collections.Generic;
 namespace EvolveSharp.Individuals
 {
     /// <summary>
-    /// Interface to support implementation of several kind of individual
+    /// Interface to support implementation of several kind of individuals
     /// </summary>
     public interface IIndividual<T> : IComparable<IIndividual<T>>, ICloneable
     {
         /// <summary>
-        /// Length of individual
+        /// Length of individual's gene
         /// </summary>
         int Length { get; }
 
         /// <summary>
         /// Access each locus of individual
         /// </summary>
-        /// <param name="locus">Lower part of individual</param>
+        /// <param name="key">Index of a individual's gene</param>
         /// <returns>Value this position</returns>
-        T this[int locus] { get; set; }
+        T this[int key] { get; set; }
 
         /// <summary>
         /// Get the gene list
@@ -37,8 +37,9 @@ namespace EvolveSharp.Individuals
         new int CompareTo(IIndividual<T> other);
 
         /// <summary>
-        /// Compare if the value this individual is equal to vaule other individual
+        /// Set Fitness Function in the Individual
         /// </summary>
+        /// <param name="fitnessFunction">Fitness Function</param>
         void SetFitnessFunction(IFitnessFunction<T> fitnessFunction);
     }
 }

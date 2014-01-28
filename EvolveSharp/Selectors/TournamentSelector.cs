@@ -6,26 +6,26 @@ namespace EvolveSharp.Selectors
 {
     /// <summary>
     /// This a kind of Selection called of Tournament.
-    /// It chooses two genomes at random and compare between them which has a
+    /// It chooses two individuals at random and compare between them which has a
     /// better evaluate through the Fitness Function
     /// </summary>
     public class TournamentSelector : ISelector
     {
         /// <summary>
-        /// Select one genome of population
+        /// Select one individual of population
         /// </summary>
-        /// <param name="population">Population with genomes</param>
-        /// <returns>The genome chosen</returns>
+        /// <param name="population">Population with individuals</param>
+        /// <returns>The individual chosen</returns>
         public IIndividual<T> Select<T>(IList<IIndividual<T>> population)
         {
-            var genome1 = Helper.Random.Next(0, population.Count);
-            var genome2 = Helper.Random.Next(0, population.Count);
+            var index1 = Helper.Random.Next(0, population.Count);
+            var index2 = Helper.Random.Next(0, population.Count);
 
-            if (population[genome1].CompareTo(population[genome2]) < 0)
+            if (population[index1].CompareTo(population[index2]) < 0)
             {
-                return population[genome2];
+                return population[index2];
             }
-            return population[genome1];
+            return population[index1];
         }
     }
 }

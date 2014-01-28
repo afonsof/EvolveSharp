@@ -9,9 +9,9 @@ namespace EvolveSharp.Individuals
         private IFitnessFunction<T> _fitnessFunction;
 
         /// <summary>
-        /// Builder a new genome from a list of genes
+        /// Builder a new individual from a list of genes
         /// </summary>
-        /// <param name="genes">List of genes which forms a Genome</param>
+        /// <param name="genes">List of genes which forms a Individual</param>
         public Individual(IList<T> genes)
         {
             _genes = genes;
@@ -28,13 +28,13 @@ namespace EvolveSharp.Individuals
         }
 
         /// <summary>
-        /// Builder a new genome from other Binary Genome
+        /// Builder a new individual from another
         /// </summary>
-        /// <param name="genome">Binary Genome</param>
-        public Individual(Individual<T> genome)
+        /// <param name="individual">Individual</param>
+        public Individual(Individual<T> individual)
         {
-            _genes = genome._genes;
-            _fitnessFunction = genome._fitnessFunction;
+            _genes = individual._genes;
+            _fitnessFunction = individual._fitnessFunction;
         }
 
         public int Length
@@ -60,27 +60,23 @@ namespace EvolveSharp.Individuals
             }
         }
 
-        /*public IList<double> Genes {
-                get { return _genes; }
-            }*/
-
         /// <summary>
-        /// Compare if the value this genome is equal to other genome
+        /// Compare if the value this individual is equal to other individual
         /// </summary>
-        /// <param name="obj">The genome to compare with this</param>
-        /// <returns>if the genomes are equal or not</returns>
+        /// <param name="obj">The individual to compare with this</param>
+        /// <returns>if the individuals are equal or not</returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
                 return false;
 
-            var genome = obj as Individual<T>;
-            if (genome == null)
+            var individual = obj as Individual<T>;
+            if (individual == null)
                 return false;
 
             for (var locus = 0; locus != _genes.Count; locus++)
             {
-                if (!EqualityComparer<T>.Default.Equals(_genes[locus], genome._genes[locus]))
+                if (!EqualityComparer<T>.Default.Equals(_genes[locus], individual._genes[locus]))
                 {
                     return false;
                 }
@@ -99,9 +95,9 @@ namespace EvolveSharp.Individuals
         }
 
         /// <summary>
-        /// Print the values of each locus of genome
+        /// Print the values of each gene of individual
         /// </summary>
-        /// <returns>Values of genome in a string</returns>
+        /// <returns>Values of individual in a string</returns>
         public override string ToString()
         {
             var output = new StringBuilder(_genes.Count);
@@ -130,9 +126,9 @@ namespace EvolveSharp.Individuals
         }
 
         /// <summary>
-        /// Set Fitness Function in the Genome
+        /// Set Fitness Function in the Individual
         /// </summary>
-        /// <param name="fitnessFunction">Class Implements in the Code of user</param>
+        /// <param name="fitnessFunction">Fitness Function</param>
         public void SetFitnessFunction(IFitnessFunction<T> fitnessFunction)
         {
             _fitnessFunction = fitnessFunction;
@@ -140,9 +136,9 @@ namespace EvolveSharp.Individuals
         }
 
         /// <summary>
-        /// Create a identical Genome with other memory address
+        /// Create a identical Individual with other memory address
         /// </summary>
-        /// <returns>A copy of genome passed in the parameters</returns>
+        /// <returns>A copy of individual</returns>
         public object Clone()
         {
             var newGenes = new T[_genes.Count];

@@ -34,7 +34,7 @@ namespace EvolveSharp.Mutators
         /// <summary>
         /// Execute Mutation in the individual for reference with based in the rate
         /// </summary>
-        /// <param name="individual">Genome</param>
+        /// <param name="individual">Individual</param>
         public void Mutate(IIndividual<double> individual)
         {
             if (Helper.Random.NextDouble() < _rateMutation)

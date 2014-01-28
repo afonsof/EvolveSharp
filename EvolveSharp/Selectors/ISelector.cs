@@ -9,10 +9,10 @@ namespace EvolveSharp.Selectors
     public interface ISelector
     {
         /// <summary>
-        /// Select a genome of population
+        /// Select one individual of population
         /// </summary>
-        /// <param name="geneticAlgorithm">population which want to select a genome</param>
-        /// <returns>the genome selected</returns>
+        /// <param name="population">population which want to select a individual</param>
+        /// <returns>The individual selected</returns>
         IIndividual<T> Select<T>(IList<IIndividual<T>> population);
     }
 }
