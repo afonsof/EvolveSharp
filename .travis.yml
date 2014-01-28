@@ -8,5 +8,6 @@ env:
 install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
 script:
+  - nuget restore
   - xbuild EvolveSharp.sln
   - nunit-console Tests/UnitTests/bin/Debug/UnitTests.dll
