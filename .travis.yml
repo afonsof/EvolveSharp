@@ -7,7 +7,9 @@ env:
   - EnableNuGetPackageRestore=true 
 install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
+  - curl -O https://nuget.org/nuget.exe
 script:
-  - nuget restore
+    - 
+  - mono nuget restore
   - xbuild EvolveSharp.sln
   - nunit-console Tests/UnitTests/bin/Debug/UnitTests.dll
