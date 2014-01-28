@@ -8,7 +8,7 @@ module.exports = function(grunt) {
   
     nugetpush: {
         dist: {
-            src: 'test/*.nupkg'
+            src: 'pub/*.nupkg'
         }
     },
     
@@ -38,5 +38,6 @@ module.exports = function(grunt) {
     }
     
   });
-  grunt.registerTask('default', ['assemblyinfo', 'shell:nugetpack', 'nugetpush']);
+  grunt.registerTask('default', ['assemblyinfo', 'shell:nugetpack']);
+  grunt.registerTask('push', ['default', 'nugetpush']);
 };
