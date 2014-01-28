@@ -5,6 +5,7 @@ language: c
 install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
   - curl -O --location https://www.nuget.org/nuget.exe
+  - curl -O --location https://dl.dropbox.com/u/103746479/Microsoft.Build.dll
 script:
   - mono --runtime=v4.0.30319 nuget.exe restore
   - xbuild EvolveSharp.sln
