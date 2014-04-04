@@ -75,3 +75,7 @@ Please use the issue tracker and pull requests.
 ## License
 Copyright (c) 2014 Afonso França
 Licensed under the MIT license.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/afonsof/evolvesharp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
