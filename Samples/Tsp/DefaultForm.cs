@@ -16,7 +16,7 @@ namespace EvolveSharp.Samples.Tsp
         private readonly Random _random = new Random();
         private Thread _thread;
         private Graphics _graphics;
-        private bool _disposed ;
+        private bool _disposed;
 
         public DefaultForm()
         {
@@ -33,7 +33,7 @@ namespace EvolveSharp.Samples.Tsp
             }
         }
 
-        private void Draw(Graphics g, GeneticAlgorithm ga)
+        private void Draw(Graphics g, GeneticAlgorithm<double> ga)
         {
             if (_disposed) return;
 
@@ -51,7 +51,7 @@ namespace EvolveSharp.Samples.Tsp
             var bestIndividual = ga.BestIndividual;
             for (var i = 0; i < _travelingSalesman.Count; i++)
             {
-                sortedNums.Add(new KeyValuePair<int, double>(i, bestIndividual[i]));
+                sortedNums.Add(new KeyValuePair<int, double>(i, bestIndividual.Genes[i]));
             }
             sortedNums = sortedNums.OrderBy(n => n.Value).ToList();
 
@@ -87,11 +87,9 @@ namespace EvolveSharp.Samples.Tsp
 
             var tsmFitnessFunction = new TsmFitnessFunction(_travelingSalesman);
 
-            var ga = new GeneticAlgorithm(populationCount, _numNodes, tsmFitnessFunction)
-            {
-                Elitism = true,
-                AfterCallback = i => Draw(_graphics, i)
-            };
+            var ga = GeneticAlgorithm.CreateDouble(populationCount, _numNodes,0,1, tsmFitnessFunction);
+                // Elitism = true,
+            ga.AfterCallback = i => { Draw(_graphics, i); };
             
             ga.Evolve(generationCount);
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using EvolveSharp.Individuals;
 
-namespace EvolveSharp.CrossoverMethods
+namespace EvolveSharp.Crossovers
 {
-    public interface ICrossoverMethod
+    public interface ICrossover<T>
     {
         /// <summary>
         /// Performs a crossover between two individuals
@@ -11,6 +11,6 @@ namespace EvolveSharp.CrossoverMethods
         /// <param name="individual1">Individual</param>
         /// <param name="individual2">Individual</param>
         /// <returns>Two sons of individuals</returns>
-        Tuple<IIndividual<T>,IIndividual<T>>  Crossover<T>(IIndividual<T> individual1, IIndividual<T> individual2);
+        Tuple<IIndividual<T>, IIndividual<T>> Crossover(IIndividual<T> individual1, IIndividual<T> individual2);
     }
 }

@@ -14,13 +14,6 @@ namespace EvolveSharp.Individuals
         int Length { get; }
 
         /// <summary>
-        /// Access each locus of individual
-        /// </summary>
-        /// <param name="key">Index of a individual's gene</param>
-        /// <returns>Value this position</returns>
-        T this[int key] { get; set; }
-
-        /// <summary>
         /// Get the gene list
         /// </summary>
         IList<T> Genes { get; }
@@ -37,9 +30,8 @@ namespace EvolveSharp.Individuals
         new int CompareTo(IIndividual<T> other);
 
         /// <summary>
-        /// Set Fitness Function in the Individual
+        /// Fitness Function for the Individual
         /// </summary>
-        /// <param name="fitnessFunction">Fitness Function</param>
-        void SetFitnessFunction(IFitnessFunction<T> fitnessFunction);
+        IFitnessFunction<T> FitnessFunction { get; set; }
     }
 }

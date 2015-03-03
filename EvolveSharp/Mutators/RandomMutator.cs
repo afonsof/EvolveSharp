@@ -1,5 +1,6 @@
 ﻿using EvolveSharp.Individuals;
-using EvolveSharp.Util;
+using EvolveSharp.Randoms;
+using System.Collections.Generic;
 
 namespace EvolveSharp.Mutators
 {
@@ -9,38 +10,39 @@ namespace EvolveSharp.Mutators
     /// Using the parameter 'RateMutation' is decided if should happen a mutation or not.
     /// If true, so is chosen a random gene to change its value.
     /// </summary>
-    public class RandomMutator : IMutator<double>
+    public class RandomMutator<T> : IMutator<T>
     {
-        private readonly double _rateMutation;
-        private const double RateMutationDefault = 0.1;
-
-        /// <summary>
-        /// Builder set 'RateMutation' with a Default value
-        /// </summary>
-        public RandomMutator()
-        {
-            _rateMutation = RateMutationDefault;
-        }
+        double rateMutation;
+        IList<T> mins, maxs;
+        IRandom<T> geneRandom;
+        IRandom<double> rateRandom;
+        IRandom<int> locusRandom;
 
         /// <summary>
         /// Builder set 'ratePerGene' with a parameter passed by the user
         /// </summary>
         /// <param name="rateMutation">Likely to happen Mutation</param>
-        public RandomMutator(double rateMutation)
+        public RandomMutator(IList<T> mins, IList<T> maxs, IRandom<T> geneRandom,
+            IRandom<double> rateRandom, IRandom<int> locusRandom, double rateMutation = 0.1)
         {
-            _rateMutation = rateMutation;
+            this.mins = mins;
+            this.maxs = maxs;
+            this.rateRandom = rateRandom;
+            this.geneRandom = geneRandom;
+            this.locusRandom = locusRandom;
+            this.rateMutation = rateMutation;
         }
 
         /// <summary>
         /// Execute Mutation in the individual for reference with based in the rate
         /// </summary>
         /// <param name="individual">Individual</param>
-        public void Mutate(IIndividual<double> individual)
+        public void Mutate(IIndividual<T> individual)
         {
-            if (Helper.Random.NextDouble() < _rateMutation)
+            if (rateRandom.GetNext(0d, 1d) < rateMutation)
             {
-                var locus = Helper.Random.Next(individual.Length);
-                individual[locus] = Helper.Random.NextDouble();
+                var locus = locusRandom.GetNext(0, individual.Length);
+                individual.Genes[locus] = geneRandom.GetNext(mins[locus], maxs[locus]);
             }
         }
     }
