@@ -2,8 +2,6 @@
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 
-<img src="http://afonsof.github.io/EvolveSharp/images/logo.png" width="150" />
-
 A Genetic Algorithm Framework for .NET
 
 <a href="http://afonsof.github.io/EvolveSharp" target="_blank">Visit our website</a>
@@ -21,15 +19,10 @@ PM> Install-Package EvolveSharp
 #### 2. Create a fitness function
 In this simple example we are creating a fitness function to sum all genes of an individual
 ```c#
-public class ExampleFitnessFunction : IFitnessFunction<double>
-{
-    public double Evaluate(IIndividual<double> individual)
-    {
+public class ExampleFitnessFunction : IFitnessFunction<double> {
+    public double Evaluate(IIndividual<double> individual) {
         var sum = 0.0;
-        for (var i = 0; i < individual.Length; i++)
-        {
-            sum += individual[i];
-        }
+        for (var i = 0; i < individual.Length; i++) { sum += individual[i]; }
         return sum;
     }
 }
