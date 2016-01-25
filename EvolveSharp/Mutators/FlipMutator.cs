@@ -1,5 +1,7 @@
 ﻿using EvolveSharp.Individuals;
-using EvolveSharp.Util;
+using EvolveSharp.Randoms;
+using System;
+using System.Collections.Generic;
 
 namespace EvolveSharp.Mutators
 {
@@ -12,38 +14,36 @@ namespace EvolveSharp.Mutators
     /// according to the rate parameter is decided if this bit will be changed for other 
     /// value or if remains the same.
     /// </summary>
-    public class UniformMutator : IMutator<double>
+    public class FlipMutator<T> : IMutator<T>
     {
-        private readonly double _ratePerGene;
-        private const double RatePerGeneDefault = 0.5;
-
-        /// <summary>
-        /// Builder set 'ratePerGene' with a Default value
-        /// </summary>
-        public UniformMutator()
-        {
-            _ratePerGene = RatePerGeneDefault;
-        }
+        double ratePerGene;
+        IList<T> mins, maxs;
+        IRandom<double> rateRandom;
+        Func<T, T, T, T> flip;
 
         /// <summary>
         /// Builder set 'ratePerGene' with a parameter passed by the user
         /// </summary>
         /// <param name="ratePerGene">Likely to happen Mutation</param>
-        public UniformMutator(double ratePerGene)
+        public FlipMutator(IList<T> mins, IList<T> maxs, IRandom<double> rateRandom, Func<T, T, T, T> flip, double ratePerGene = 0.5)
         {
-            _ratePerGene = ratePerGene;
+            this.mins = mins;
+            this.maxs = maxs;
+            this.rateRandom = rateRandom;
+            this.ratePerGene = ratePerGene;
+            this.flip = flip;
         }
 
         /// <summary>
         /// Execute Mutation in the individual for reference with based in the rate
         /// </summary>
         /// <param name="individual">Individual</param>
-        public void Mutate(IIndividual<double> individual)
+        public void Mutate(IIndividual<T> individual)
         {
-            for(var locus = 0; locus < individual.Length; locus++)
-            {                
-                if (Helper.Random.NextDouble() < _ratePerGene)
-                    individual[locus] = (1.0 - individual[locus]);
+            for (var locus = 0; locus < individual.Length; locus++)
+            {
+                if (rateRandom.GetNext(0d, 1d) < ratePerGene)
+                    individual.Genes[locus] = flip(mins[locus], maxs[locus], individual.Genes[locus]);
             }
         }
     }

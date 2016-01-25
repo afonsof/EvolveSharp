@@ -21,7 +21,7 @@ namespace EvolveSharp.Samples.Tsp
 
             for (var i = 0; i < _travelingSalesman.Count; i++)
             {
-                sortedNums.Add(new KeyValuePair<int, double>(i, individual[i]));
+                sortedNums.Add(new KeyValuePair<int, double>(i, individual.Genes[i]));
             }
             sortedNums = sortedNums.OrderBy(n => n.Value).ToList();
 

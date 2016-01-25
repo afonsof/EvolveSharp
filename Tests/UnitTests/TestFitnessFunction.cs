@@ -9,11 +9,11 @@ namespace UnitTests
     {
         public double Evaluate(IIndividual<double> individual)
         {
-            var d = GetRate(individual[0], 0.1);
-            d += GetRate(individual[1], 0.2);
-            d += GetRate(individual[2], 0.3);
-            d += GetRate(individual[3], 0.4);
-            d += GetRate(individual[4], 0.5);
+            var d = GetRate(individual.Genes[0], 0.1);
+            d += GetRate(individual.Genes[1], 0.2);
+            d += GetRate(individual.Genes[2], 0.3);
+            d += GetRate(individual.Genes[3], 0.4);
+            d += GetRate(individual.Genes[4], 0.5);
 
             return d / 5;
         }

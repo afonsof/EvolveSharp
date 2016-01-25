@@ -1,68 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
-using EvolveSharp.CrossoverMethods;
+using EvolveSharp.Crossovers;
 using EvolveSharp.Individuals;
 using EvolveSharp.Initializers;
 using EvolveSharp.Mutators;
 using EvolveSharp.Reporters;
 using EvolveSharp.Selectors;
+using System.Linq;
+using EvolveSharp.Randoms;
 
 namespace EvolveSharp
 {
     /// <summary>
     /// Controller class of population's generation
     /// </summary>
-    public class GeneticAlgorithm : List<IIndividual<double>>
+    public class GeneticAlgorithm<T>
     {
-        public bool Elitism { get; set; }
-        public ISelector Selector { get; set; }
-        public ICrossoverMethod CrossoverMethod { get; set; }
-        public IMutator<double> Mutator { get; set; }
-        public IFitnessFunction<double> FitnessFunction { get; set; }
-        public IInitializer<double> Initializer { get; set; }
+        public List<IIndividual<T>> Individuals { get; private set; }
+        public int EliteCount { get; set; }
+        public double CrossoverFraction { get; set; }
+        public ISelector<T> Selector { get; set; }
+        public ICrossover<T> Crossover { get; set; }
+        public IMutator<T> Mutator { get; set; }
+        public IFitnessFunction<T> FitnessFunction { get; set; }
+        public IInitializer<T> Initializer { get; set; }
         public IReporter Reporter { get; set; }
         public int GenerationIndex { get; set; }
 
-        public Action<GeneticAlgorithm> AfterCallback { get; set; }
+        public Action<GeneticAlgorithm<T>> AfterCallback { get; set; }
 
-        public GeneticAlgorithm(int populationCount, int geneCount, IFitnessFunction<double> fitnessFunction, IMutator<double> mutator = null,
-                                IInitializer<double> initializer = null, ICrossoverMethod crossoverMethod = null,
-                                ISelector selector = null, IReporter reporter = null)
+        public GeneticAlgorithm(int populationCount,
+                                int geneCount,
+                                IFitnessFunction<T> fitnessFunction,
+                                IInitializer<T> initializer,
+                                IMutator<T> mutator,
+                                ICrossover<T> crossover,
+                                ISelector<T> selector,
+                                IReporter reporter,
+                                int eliteCount = 2,
+                                double crossoverFraction = 0.8)
         {
-            GenerationIndex++;
-
+            Individuals = new List<IIndividual<T>>();
             FitnessFunction = fitnessFunction;
-            Mutator = mutator;
             Initializer = initializer;
-            Mutator = mutator ?? new RandomMutator();
-            Initializer = initializer ?? new EmptyInitializer(geneCount);
-            Reporter = reporter ?? new ConsoleReporter();
-            CrossoverMethod = crossoverMethod ?? new UniformCrossoverMethod();
-            Selector = selector ?? new TournamentSelector();
+            Mutator = mutator;
+            Crossover = crossover;
+            Selector = selector;
+            Reporter = reporter;
 
-            Clear();
-            var initialPopulation = Initializer.Generate(populationCount, FitnessFunction);
-            foreach (var individual in initialPopulation) { Add(individual); }
+            EliteCount = eliteCount;
+            CrossoverFraction = crossoverFraction;
+
+            Individuals.AddRange(Initializer.Generate(populationCount, FitnessFunction));
+        }
+
+        IIndividual<T> getBestIndividual()
+        {
+            if (Individuals.Count <= 0) return null;
+            return Individuals.Aggregate((x1, x2) => x1.Fitness > x2.Fitness ? x1 : x2);
         }
 
         /// <summary>
         /// Get the best individual based in the fitness' value
         /// </summary>
         /// <returns>The best Individual</returns>
-        public IIndividual<double> BestIndividual
-        {
-            get
-            {
-                if (Count <= 0) return null;
-                var best = this[0];
-                for (var i = 1; i < Count; i++)
-                {
-                    if (this[i].Fitness > best.Fitness)
-                        best = this[i];
-                }
-                return best;
-            }
-        }
+        public IIndividual<T> BestIndividual { get; private set; }
 
         /// <summary>
         ///  Do the evolution
@@ -75,59 +77,111 @@ namespace EvolveSharp
 
             for (var i = 0; i < generationCount; i++)
             {
-                NextGeneration();
-                var bestIndividual = BestIndividual;
+                nextGeneration();
+                BestIndividual = getBestIndividual();
 
-                if (AfterCallback != null)
-                {
-                    AfterCallback(this);
-                }
+                if (AfterCallback != null) AfterCallback(this);
 
                 Reporter.ReportLine("Generation #{0}", GenerationIndex);
-                Reporter.ReportLine("  Best Individual: {0}\n  Fitness: {1}\n", bestIndividual.ToString(), bestIndividual.Fitness);
+                Reporter.ReportLine("  Best Individual: {0}\n  Fitness: {1}\n", BestIndividual, BestIndividual.Fitness);
 
-                if (minRateToSuccess > 0 && bestIndividual.Fitness > minRateToSuccess)
-                {
+                if (minRateToSuccess > 0 && BestIndividual.Fitness > minRateToSuccess)
                     break;
-                }
             }
 
             Reporter.ReportLine("Evolution finished.");
         }
 
-        #region PrivateMethods
-        private void NextGeneration()
+        void nextGeneration()
         {
-            var newGeneration = new List<IIndividual<double>>();
+            var newGeneration = new List<IIndividual<T>>();
 
-            for (var i = 0; i < Count; i += 2)
+            if (EliteCount > 0)
+                newGeneration.AddRange(Individuals.OrderByDescending(x => x.Fitness).Take(EliteCount));
+
+            var crossOverCount = CrossoverFraction * (Individuals.Count - EliteCount) + 1;
+            for (var i = 0; i < crossOverCount; i += 2)
             {
-                var aux = CrossoverMethod.Crossover(Selector.Select(this), Selector.Select(this));
+                var aux = Crossover.Crossover(Selector.Select(Individuals), Selector.Select(Individuals));
 
-                Mutator.Mutate(aux.Item1);
-                Mutator.Mutate(aux.Item2);
+                aux.Item1.FitnessFunction = FitnessFunction;
+                aux.Item2.FitnessFunction = FitnessFunction;
 
                 newGeneration.Add(aux.Item1);
                 newGeneration.Add(aux.Item2);
-
-                newGeneration[i].SetFitnessFunction(FitnessFunction);
-                newGeneration[i + 1].SetFitnessFunction(FitnessFunction);
             }
 
-            if (newGeneration.Count > Count)
+            if (newGeneration.Count > Individuals.Count)
+                newGeneration.RemoveAt(Individuals.Count);
+
+            var remainingCount = Individuals.Count - newGeneration.Count;
+            for (var i = 0; i < remainingCount; ++i)
             {
-                newGeneration.RemoveAt(Count);
+                var aux = (IIndividual<T>)Selector.Select(Individuals).Clone();
+                Mutator.Mutate(aux);
+                aux.FitnessFunction = FitnessFunction;
+
+                newGeneration.Add(aux);
             }
 
-            if (Elitism)
-            {
-                newGeneration[0] = BestIndividual;
-            }
-
-            Clear();
-            AddRange(newGeneration);
+            Individuals.Clear();
+            Individuals.AddRange(newGeneration);
             GenerationIndex++;
         }
-        #endregion
+    }
+
+    public static class GeneticAlgorithm
+    {
+        public static GeneticAlgorithm<double> CreateDouble(int populationCount,
+                                                     int geneCount,
+                                                     double min,
+                                                     double max,
+                                                     IFitnessFunction<double> fitnessFunction,
+                                                     IMutator<double> mutator = null,
+                                                     IInitializer<double> initializer = null,
+                                                     ICrossover<double> crossover = null,
+                                                     ISelector<double> selector = null,
+                                                     IReporter reporter = null)
+        {
+            var mins = Enumerable.Repeat(min, geneCount).ToList();
+            var maxs = Enumerable.Repeat(max, geneCount).ToList();
+
+            var dRandom = new DoubleRandom();
+            var iRandom = new IntegerRandom();
+
+            mutator = mutator ?? new RandomMutator<double>(mins, maxs, dRandom, dRandom, iRandom);
+            initializer = initializer ?? new RandomInitializer<double>(geneCount, mins, maxs, dRandom);
+            reporter = reporter ?? new ConsoleReporter();
+            crossover = crossover ?? new UniformCrossover<double>(dRandom);
+            selector = selector ?? new TournamentSelector<double>(iRandom);
+
+            return new GeneticAlgorithm<double>(populationCount, geneCount, fitnessFunction, initializer, mutator, crossover, selector, reporter);
+        }
+
+        public static GeneticAlgorithm<int> CreateInteger(int populationCount,
+                                                          int geneCount,
+                                                          int min,
+                                                          int max,
+                                                          IFitnessFunction<int> fitnessFunction,
+                                                          IMutator<int> mutator = null,
+                                                          IInitializer<int> initializer = null,
+                                                          ICrossover<int> crossover = null,
+                                                          ISelector<int> selector = null,
+                                                          IReporter reporter = null)
+        {
+            var mins = Enumerable.Repeat(min, geneCount).ToList();
+            var maxs = Enumerable.Repeat(max, geneCount).ToList();
+
+            var dRandom = new DoubleRandom();
+            var iRandom = new IntegerRandom();
+
+            mutator = mutator ?? new RandomMutator<int>(mins, maxs, iRandom, dRandom, iRandom);
+            initializer = initializer ?? new RandomInitializer<int>(geneCount, mins, maxs, iRandom);
+            reporter = reporter ?? new ConsoleReporter();
+            crossover = crossover ?? new UniformCrossover<int>(dRandom);
+            selector = selector ?? new TournamentSelector<int>(iRandom);
+
+            return new GeneticAlgorithm<int>(populationCount, geneCount, fitnessFunction, initializer, mutator, crossover, selector, reporter);
+        }
     }
 }

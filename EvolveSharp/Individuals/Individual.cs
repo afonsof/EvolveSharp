@@ -5,58 +5,45 @@ namespace EvolveSharp.Individuals
 {
     public class Individual<T> : IIndividual<T>
     {
-        private readonly IList<T> _genes;
-        private IFitnessFunction<T> _fitnessFunction;
+        private readonly IList<T> genes;
+        private IFitnessFunction<T> fitnessFunction;
 
         /// <summary>
-        /// Builder a new individual from a list of genes
+        /// Builds a new individual from a list of genes
         /// </summary>
         /// <param name="genes">List of genes which forms a Individual</param>
         public Individual(IList<T> genes)
         {
-            _genes = genes;
-        }
-
-        public T this[int key]
-        {
-            get { return _genes[key]; }
-            set
-            {
-                _fitness = null;
-                _genes[key] = value;
-            }
+            this.genes = genes;
         }
 
         /// <summary>
-        /// Builder a new individual from another
+        /// Builds a new individual from another
         /// </summary>
         /// <param name="individual">Individual</param>
         public Individual(Individual<T> individual)
         {
-            _genes = individual._genes;
-            _fitnessFunction = individual._fitnessFunction;
+            genes = individual.genes;
+            fitnessFunction = individual.fitnessFunction;
         }
 
         public int Length
         {
-            get { return _genes.Count; }
+            get { return genes.Count; }
         }
 
         /// <summary>
         /// Get the last fitness evaluated
         /// </summary>
-        private double? _fitness;
+        private double? fitness;
 
         public double Fitness
         {
             get
             {
-                if (_fitness.HasValue)
-                {
-                    return _fitness.Value;
-                }
-                _fitness = _fitnessFunction.Evaluate(this);
-                return _fitness.Value;
+                if (fitness.HasValue) return fitness.Value;
+                fitness = fitnessFunction.Evaluate(this);
+                return fitness.Value;
             }
         }
 
@@ -74,9 +61,9 @@ namespace EvolveSharp.Individuals
             if (individual == null)
                 return false;
 
-            for (var locus = 0; locus != _genes.Count; locus++)
+            for (var locus = 0; locus != genes.Count; locus++)
             {
-                if (!EqualityComparer<T>.Default.Equals(_genes[locus], individual._genes[locus]))
+                if (!EqualityComparer<T>.Default.Equals(genes[locus], individual.genes[locus]))
                 {
                     return false;
                 }
@@ -87,7 +74,7 @@ namespace EvolveSharp.Individuals
         public override int GetHashCode()
         {
             int hash = 19;
-            foreach (var gene in _genes)
+            foreach (var gene in genes)
             {
                 hash = hash * 31 + gene.GetHashCode();
             }
@@ -100,8 +87,8 @@ namespace EvolveSharp.Individuals
         /// <returns>Values of individual in a string</returns>
         public override string ToString()
         {
-            var output = new StringBuilder(_genes.Count);
-            foreach (var gene in _genes)
+            var output = new StringBuilder(genes.Count);
+            foreach (var gene in genes)
                 output.AppendFormat(" {0:0.00}", gene);
 
             return output.ToString();
@@ -109,30 +96,29 @@ namespace EvolveSharp.Individuals
 
         public IList<T> Genes
         {
-            get { return _genes; }
+            get { return genes; }
         }
 
         public int CompareTo(IIndividual<T> other)
         {
-            if (Fitness < other.Fitness)
-            {
-                return -1;
-            }
-            if (Fitness > other.Fitness)
-            {
-                return 1;
-            }
+            if (Fitness > other.Fitness) return +1;
+            if (Fitness < other.Fitness) return -1;
+
             return 0;
         }
 
         /// <summary>
-        /// Set Fitness Function in the Individual
+        /// Fitness Function for the Individual
         /// </summary>
-        /// <param name="fitnessFunction">Fitness Function</param>
-        public void SetFitnessFunction(IFitnessFunction<T> fitnessFunction)
+        public IFitnessFunction<T> FitnessFunction
         {
-            _fitnessFunction = fitnessFunction;
-            _fitness = null;
+            get { return fitnessFunction; }
+            set
+            {
+                if (fitnessFunction == value) return;
+                fitnessFunction = value;
+                fitness = null;
+            }
         }
 
         /// <summary>
@@ -141,12 +127,12 @@ namespace EvolveSharp.Individuals
         /// <returns>A copy of individual</returns>
         public object Clone()
         {
-            var newGenes = new T[_genes.Count];
-            for (var i = 0; i < _genes.Count; i++)
+            var newGenes = new T[genes.Count];
+            for (var i = 0; i < genes.Count; i++)
             {
-                newGenes[i] = _genes[i];
+                newGenes[i] = genes[i];
             }
-            return new Individual<T>(_genes) { _fitnessFunction = _fitnessFunction };
+            return new Individual<T>(genes) { fitnessFunction = fitnessFunction };
         }
     }
 }
